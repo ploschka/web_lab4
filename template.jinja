@@ -1,0 +1,72 @@
+{% macro table(header, data) %}
+<table>
+    <thead>
+        <tr>
+            {% for h in header %}
+            <th>{{ h }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            {% for data in row %}
+            <td>{{ data }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    table {
+        margin: auto;
+        border-collapse: collapse;
+    }
+
+    td,
+    th {
+        padding: 5px;
+        border: solid 3px black;
+    }
+
+    .content {
+        margin: auto;
+        width: 50%;
+    }
+
+    .content p {
+        width: max-content;
+        margin: auto;
+    }
+</style>
+
+<head>
+    <title>Книги</title>
+</head>
+
+<body>
+    <div class="content">
+        <p>Найти книги</p>
+        <p>
+            <label for="1">Дешевле</label>
+            <input id="1" type="number">
+        </p>
+        <p>Или</p>
+        <p>
+            <label for="2">Дороже</label>
+            <input id="2" type="number">
+        </p>
+        {{ table(header, data) }}
+    </div>
+</body>
+
+</html>

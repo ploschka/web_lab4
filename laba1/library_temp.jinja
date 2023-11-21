@@ -1,0 +1,89 @@
+{% macro render_table(name, dataframe)%}
+<p>
+    <b>{{name}} </b>
+</p>
+<!-- количество строк в таблице -->
+{% set n = len(dataframe) %}
+{% set ns = namespace(e = False)%}
+<table>
+    <!-- формируем заголовок таблицы (имена столбцов) -->
+    <tr>
+        {% for name in dataframe.dtypes.index %}
+        <th>{{name}}</th>
+        {% endfor %}
+    </tr>
+    <tbody>
+        <!-- для всех строк таблицы -->
+        {% for i in range(n) %}
+        <tr class="{% if ns.e %}even{% else %}odd{% endif %}">
+            {% set ns.e = not(ns.e) %}
+            <!-- выводим значение каждого столбца -->
+            {% for name in dataframe.dtypes.index %}
+            <td> {{ dataframe.loc[i, name] }} </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}
+
+<html>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .table-container {
+        margin: auto;
+        display: flex;
+        border: solid thin blue;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .table-container > div{
+        margin: 10px;
+    }
+    .table-container > div > p{
+        margin: auto;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    td,
+    th {
+        border: solid thin rgba(175, 175, 175, 0.604);
+        padding: 3px;
+    }
+
+    td {
+        text-align: left;
+    }
+
+    .even,
+    th {
+        background-color: rgb(167, 167, 167);
+    }
+</style>
+
+<head>
+    <title> Дамп базы данных </title>
+</head>
+
+<body>
+    <div class="table-container">
+        <div>{{ render_table(publisher, publisher_table) }}</div>
+        <div>{{ render_table(genre, genre_table) }}</div>
+        <div>{{ render_table(reader, reader_table) }}</div>
+        <div>{{ render_table(book, book_table) }}</div>
+        <div>{{ render_table(book_author, book_author_table) }}</div>
+        <div>{{ render_table(book_reader, book_reader_table) }}</div>
+    </div>
+</body>
+
+</html>
